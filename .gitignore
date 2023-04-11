@@ -1,0 +1,6 @@
+/server/venv
+/server/db.sqlite3
+/server/muze_me/__pycache__
+/server/muze_me/migrations/__pycache__
+/server/users/__pycache__
+/server/users/migrations/__pycache__

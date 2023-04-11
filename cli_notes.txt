@@ -1,0 +1,19 @@
+python -m venv venv
+venv\Scripts\activate
+deactivate
+
+pip install -r requirements.txt
+
+pip install Django
+
+django-admin startproject muze_me . <- to avoid creating double folder
+python manage.py migrate
+python manage.py createsuperuser
+ -admin admin
+
+python manage.py runserver 127.0.0.1:8000
+python manage.py startapp <app name> <- app is a component of the project
+
+python -m pip install Pillow
+
+ 
