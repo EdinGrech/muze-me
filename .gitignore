@@ -4,3 +4,6 @@
 /server/muze_me/migrations/__pycache__
 /server/users/__pycache__
 /server/users/migrations/__pycache__
+/server/news_module/__pycache__
+/server/news_module/migrations/__pycache__
+/server/.env
