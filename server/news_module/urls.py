@@ -1,6 +1,7 @@
 from django.urls import path
-from .views import NewsSerializer, NewsReadSerializer
+from .views import AddNewNews, ViewNews
 
 urlpatterns = [
-    path('add-new-news/', NewsSerializer.as_view(), name="add-new-news"),
+    path('add-new-news/', AddNewNews.as_view(), name="add-new-news"),
+    path('view-news/<int:page>', ViewNews.as_view(), name="view-news"),
 ]

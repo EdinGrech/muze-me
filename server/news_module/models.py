@@ -1,15 +1,16 @@
 from django.db import models
 
 class News(models.Model):
-    source_id = models.CharField(max_length=100)
-    source_name = models.CharField(max_length=100)
-    author = models.CharField(max_length=100)
-    title = models.CharField(max_length=256)
+    source_id = models.CharField(max_length=256,default="", null=True)
+    source_name = models.CharField(max_length=256,default="", null=True)
+    author = models.CharField(max_length=256, null=True)
+    title = models.CharField(max_length=256, null=False)
     description = models.TextField()
-    url = models.URLField()
+    url = models.URLField(null=False)
     urlToImage = models.URLField()
     publishedAt = models.DateTimeField()
     content = models.TextField()
+    sentement = models.FloatField(null=False,default=0.0)
 
 # Example of a response from the News API:
 # {
