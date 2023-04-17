@@ -14,19 +14,18 @@ class AddNewNews(generics.ListCreateAPIView):
 
 class ViewNews(generics.ListAPIView):
     # get method handler
-    #news_parser()
     #get page value from url
     queryset = News.objects.all()
     serializer_class = NewsSerializer
-
     def get(self, request, *args, **kwargs):
+        #news_parser()#call only if news had not been updated#<--VERY IMPORTANT
         page = kwargs.get('page')
-        print(page)
         if page is not None:
             page = int(page)
             if page > 0:
                 page = page - 1
-                queryset = News.objects.all()[page*10:page*10+10]
+                #get 10 most recent news
+                queryset = News.objects.all().order_by('-publishedAt')[page*10:page*10+10]
                 serializer_class = NewsSerializer(queryset, many=True)
                 return Response(serializer_class.data, status=HTTP_200_OK)
             else:

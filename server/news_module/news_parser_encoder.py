@@ -9,12 +9,14 @@ def sentementalizro(text):
     return ((sid.polarity_scores(str(text))))['compound']
 
 def news_parser():
+    print("news_parser_start")
     responce = get_headline_news()
     if responce['status'] == 'ok':
         for artical in responce['articles']:
-            artical['source_id'] = artical['source']['id'] = "test"
-            artical['source_name'] = artical['source']['name'] = "test"
-            artical['sentiment'] = sentementalizro(artical['content'])
+            artical['source_id'] = artical['source']['id']
+            artical['source_name'] = artical['source']['name']
+            del artical['source']
+            artical['sentement'] = sentementalizro(artical['content'])
             serializer = NewsSerializer(data=artical)
             if serializer.is_valid():
                 serializer.save()

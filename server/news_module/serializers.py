@@ -4,9 +4,10 @@ from rest_framework import serializers
 # from django.core.exceptions import ValidationError
 # from rest_framework import authentication, permissions
 class NewsSerializer(serializers.ModelSerializer):
-    source_id = serializers.CharField()
-    source_name = serializers.CharField()
-    author = serializers.CharField()
+    id = serializers.IntegerField(read_only=True)
+    source_id = serializers.CharField(allow_null=True)
+    source_name = serializers.CharField(allow_null=True)
+    author = serializers.CharField(allow_null=True)
     title = serializers.CharField()
     description = serializers.CharField()
     url = serializers.URLField()
@@ -18,6 +19,7 @@ class NewsSerializer(serializers.ModelSerializer):
     class Meta:
         model = News
         fields = (
+            'id',
             'source_id',
             'source_name',
             'author',
@@ -26,7 +28,7 @@ class NewsSerializer(serializers.ModelSerializer):
             'url',
             'urlToImage',
             'publishedAt',
-            'content'
-            'sentement'
+            'content',
+            'sentement',
         )
     

@@ -1,8 +1,8 @@
 from django.db import models
 
 class News(models.Model):
-    source_id = models.CharField(max_length=256,default="", null=True)
-    source_name = models.CharField(max_length=256,default="", null=True)
+    source_id = models.CharField(max_length=256, null=True)
+    source_name = models.CharField(max_length=256, null=True)
     author = models.CharField(max_length=256, null=True)
     title = models.CharField(max_length=256, null=False)
     description = models.TextField()
