@@ -5,7 +5,12 @@ from .models import News
 from .serializers import NewsSerializer
 from .news_parser_encoder import news_parser
 #authentication
-from rest_framework import authentication, permissions
+#from rest_framework import authentication, permissions
+from django.utils import timezone
+from datetime import timedelta
+import os
+from dotenv import load_dotenv, find_dotenv
+load_dotenv(find_dotenv())
 
 class AddNewNews(generics.ListCreateAPIView):
     # get method handler
@@ -18,7 +23,12 @@ class ViewNews(generics.ListAPIView):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
     def get(self, request, *args, **kwargs):
-        #news_parser()#call only if news had not been updated#<--VERY IMPORTANT
+        #check if news had been updated or if it is the first time
+        try: 
+            if News.objects.all().order_by('-publishedAt').first().publishedAt < timezone.now() - timedelta(hours=int(os.environ.get("HOURS_TO_UPDATE_NEWS"))):
+                news_parser()
+        except:
+            news_parser()
         page = kwargs.get('page')
         if page is not None:
             page = int(page)

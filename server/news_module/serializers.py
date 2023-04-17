@@ -12,7 +12,7 @@ class NewsSerializer(serializers.ModelSerializer):
     description = serializers.CharField()
     url = serializers.URLField()
     urlToImage = serializers.URLField()
-    publishedAt = serializers.DateTimeField()
+    publishedAt = serializers.DateTimeField(allow_null=True)
     content = serializers.CharField()
     sentement = serializers.FloatField()
 
