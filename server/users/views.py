@@ -1,60 +1,113 @@
-from django.shortcuts import redirect
-from rest_framework import generics
+from django.shortcuts import render
+
+from rest_framework.views import APIView
 from rest_framework.response import Response
-from rest_framework.status import HTTP_200_OK, HTTP_400_BAD_REQUEST
+from .serializers import UserSerializer, UserUpdateSerializer
 from .models import User
-from .serializers import UserSerializer, UserLoginSerializer, UserLogoutSerializer
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.exceptions import AuthenticationFailed
 
-class Register(generics.ListCreateAPIView):
-    # get method handler
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
+import jwt
+import datetime
+
+# Create your views here.
+
+class registerAPIView(APIView):
+    def post(self, request):
+        serializer = UserSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)   #if anything not valid, raise exception
+        serializer.save()
+        return Response(serializer.data)
 
 
-class Login(generics.GenericAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserLoginSerializer
+class LoginAPIView(APIView):
+    def post(self, request):
+        email = request.data['email']
+        password = request.data['password']
 
-    def post(self, request, *args, **kwargs):
-        serializer_class = UserLoginSerializer(data=request.data)
-        if serializer_class.is_valid(raise_exception=True):
-            return Response(
-                # return the token and email
-                data={
-                    'user_id': serializer_class.data['user_id'],
-                    'token': serializer_class.data['token'],
-                    },
-                status=HTTP_200_OK)
-        return Response(serializer_class.errors, status=HTTP_400_BAD_REQUEST)
+        #find user using email
+        user = User.objects.filter(email=email).first()
 
-class Logout(generics.GenericAPIView):
-    queryset = User.objects.all()
-    serializer_class = UserLogoutSerializer
+        if user is None:
+            raise AuthenticationFailed('User not found:)')
+            
+        if not user.check_password(password):
+            raise AuthenticationFailed('Invalid password')
 
-    def post(self, request, *args, **kwargs):
-        serializer_class = UserLogoutSerializer(data=request.data)
-        if serializer_class.is_valid(raise_exception=True):
-            return Response(serializer_class.data, status=HTTP_200_OK)
-        return Response(serializer_class.errors, status=HTTP_400_BAD_REQUEST)
+       
+        payload = {
+            "id": user.id,
+            "email": user.email,
+            "news_tollerance": user.news_tollerance,
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+            "iat": datetime.datetime.utcnow()
+        }
 
-class Profile(generics.RetrieveUpdateAPIView):
-    permission_classes = (IsAuthenticated,)
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-    def get(self, request, *args, **kwargs):
-        return Response(UserSerializer(request.user).data)
-    
-    def update(self, request, *args, **kwargs):
-        # only update user news_tollerance, make sure it is an integer between 0 - 10
-        if request.data['news_tollerance'] >= 0 and request.data['news_tollerance'] <= 10:
-            request.user.news_tollerance = request.data['news_tollerance']
-            request.user.save()
-            return Response(UserSerializer(request.user).data)
-        else:
-            return Response("news_tollerance must be an integer between 0 - 10")
+        token = jwt.encode(payload, 'secret', algorithm='HS256')
+        # token.decode('utf-8')
+        #we set token via cookies
         
 
+        response = Response() 
+
+        response.set_cookie(key='jwt', value=token, httponly=True)  #httonly - frontend can't access cookie, only for backend
+
+        response.data = {
+            'jwt token': token
+        }
+
+        #if password correct
+        return response
 
 
+# get user using cookie
+class UserView(APIView):
+    def get(self, request):
+        token = request.COOKIES.get('jwt')
+
+        if not token:
+            raise AuthenticationFailed("Unauthenticated!")
+        
+        try:
+            payload = jwt.decode(token, 'secret', algorithms="HS256")
+            #decode gets the user
+
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed("Unauthenticated!")
+        
+        user = User.objects.filter(id=payload['id']).first()
+        serializer = UserSerializer(user)
+
+        return Response(serializer.data, status=200)
+        #cookies accessed if preserved
+
+class LogoutView(APIView):
+    def post(self, request):
+        response = Response()
+        response.delete_cookie('jwt')
+        response.data = {
+            'message': 'successful'
+        }
+        response.status_code = 200
+
+        return response
+    
+class UserUpdateView(APIView):
+    def put(self, request):
+        token = request.COOKIES.get('jwt')
+
+        if not token:
+            raise AuthenticationFailed("Unauthenticated!")
+        
+        try:
+            payload = jwt.decode(token, 'secret', algorithms="HS256")
+            #decode gets the user
+
+        except jwt.ExpiredSignatureError:
+            raise AuthenticationFailed("Unauthenticated!")
+        
+        user = User.objects.filter(email=payload['email']).first()
+        serializer = UserUpdateSerializer(user, data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response(serializer.data, status=200)
