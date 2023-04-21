@@ -1,0 +1,7 @@
+{
+  "name": "muze-me",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
