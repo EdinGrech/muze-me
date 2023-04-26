@@ -1,15 +1,16 @@
 import { Routes } from '@angular/router';
+// import { inject } from '@angular/core';
+// import { AuthService } from './services/auth/auth.service';
 
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'folder/inbox',
+    redirectTo: 'news',
     pathMatch: 'full',
   },
   {
-    path: 'folder/:id',
-    loadComponent: () =>
-      import('./folder/folder.page').then((m) => m.FolderPage),
+    path: 'news',
+    loadChildren: () => import('./home/home.router').then((m) => m.routes),
   },
   {
     path: 'auth',
