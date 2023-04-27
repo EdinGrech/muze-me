@@ -4,7 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
-import { AuthService } from '../sevices/auth/auth.service';
+import { AuthService } from '../services/auth/auth.service';
+import { User } from '../interfaces/user';
 
 @Component({
   selector: 'app-auth',
@@ -36,8 +37,16 @@ export class AuthPage implements OnInit {
     this.isLoading = true
     formData_.append('email', this.formData.get('email')!.value);
     formData_.append('password', this.formData.get('password')!.value);
-    console.log(formData_.get('email'), formData_.get('password'));
-    this.auth.signInWithEmail(formData_.get('email'), formData_.get('password'))
+    this.auth.signInWithEmail(formData_.get('email'), formData_.get('password')).subscribe((res) => {
+      console.log(res);
+      if (res.status == 200) {
+        console.log("Logged in");
+      }else{
+        console.log(res.statusTest)
+      }
+      this.isLoading = false
+    }
+    );
   }
 
   register() {
@@ -48,7 +57,19 @@ export class AuthPage implements OnInit {
       formData.append('email', this.formData.get('email')!.value);
       formData.append('password', this.formData.get('password')!.value);
 
-      this.auth.signUp(formData.get('email'), formData.get('password'), formData.get('name'))
+      const user: User = {
+        username: formData.get('name'),
+        email: formData.get('email'),
+        password: formData.get('password'),
+        tollerance: null
+      };
+      
+      this.auth.signUp(user).subscribe((res) => {
+        console.log(res);
+        this.isLoading = false
+        this.screen = 'signin';
+      }
+      );
     }
   }
 }

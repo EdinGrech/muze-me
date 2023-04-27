@@ -5,7 +5,7 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   {
     path: '',
-    redirectTo: 'news',
+    redirectTo: '/news/home',
     pathMatch: 'full',
   },
   {

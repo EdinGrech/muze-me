@@ -4,7 +4,9 @@
 
 export const environment = {
   production: false,
-  motherShipUrl: 'http://localhost:8100'
+  motherShipUrl: 'http://localhost',
+  appPort: '8100',
+  apiPort: '8000',
 };
 
 /*
