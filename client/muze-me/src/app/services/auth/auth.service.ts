@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { User, UserSignUpResponse } from 'src/app/interfaces/user';
+import { User, UserLoginInterface, UserRegisterInterface, UserSignUpResponse } from 'src/app/interfaces/user';
 
 @Injectable({
   providedIn: 'root',
@@ -10,7 +10,7 @@ import { User, UserSignUpResponse } from 'src/app/interfaces/user';
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  signUp(user: User): Observable<UserSignUpResponse> {
+  signUp(user: UserRegisterInterface): Observable<UserSignUpResponse> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',

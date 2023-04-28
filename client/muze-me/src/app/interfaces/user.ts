@@ -1,8 +1,18 @@
 export interface User {
-    username : string;
+    username: string;
+    email: string;
+    tollerance: number | 0;
+}
+export interface UserLoginInterface {
     email : string;
     password : string;
-    tollerance : number | null;
+}
+
+export interface UserRegisterInterface {
+    username: string;
+    email: string;
+    password: string;
+    tollerance: number | 0;
 }
 
 export interface UserSignUpResponse {

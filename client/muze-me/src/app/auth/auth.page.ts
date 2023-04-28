@@ -5,7 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { AuthService } from '../services/auth/auth.service';
-import { User } from '../interfaces/user';
+import { UserLoginInterface, UserRegisterInterface } from '../interfaces/user';
 
 @Component({
   selector: 'app-auth',
@@ -57,11 +57,11 @@ export class AuthPage implements OnInit {
       formData.append('email', this.formData.get('email')!.value);
       formData.append('password', this.formData.get('password')!.value);
 
-      const user: User = {
+      const user: UserRegisterInterface = {
         username: formData.get('name'),
         email: formData.get('email'),
         password: formData.get('password'),
-        tollerance: null
+        tollerance: 0
       };
       
       this.auth.signUp(user).subscribe((res) => {
