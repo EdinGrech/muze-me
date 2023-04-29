@@ -3,6 +3,7 @@ export interface User {
     email: string;
     tollerance: number | 0;
 }
+
 export interface UserLoginInterface {
     email : string;
     password : string;

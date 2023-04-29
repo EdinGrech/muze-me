@@ -1,51 +1,125 @@
 import { User } from './../../interfaces/user';
 import { createReducer, on, createFeature } from '@ngrx/store';
-import { authActions } from './user.actions';
+import { 
+  loadUser,
+  loadUserSuccess,
+  loadUserFailure,
+  loginUser,
+  loginUserSuccess,
+  loginUserFailure,
+  registerUser,
+  registerUserSuccess,
+  registerUserFailure,
+  logoutUser,
+  logoutUserSuccess,
+  logoutUserFailure,
+  updateUser,
+  updateUserSuccess,
+  updateUserFailure,
+  } from './user.actions';
 
-export interface AuthState {
-  loggedIn: boolean;
+export interface UserState {
   user: User;
-  status: Status;
+  error: any;
+  loading: boolean;
+  loggedIn: boolean;
 }
 
-export enum Status {
-  INIT = 'INIT',
-  IN_PROGRESS = 'IN_PROGRESS',
-}
-
-export const authInitialState: AuthState = {
-  loggedIn: false,
-  status: Status.INIT,
+export const initialState: UserState = {
   user: {
     username: '',
     email: '',
     tollerance: 0,
   },
+  error: null,
+  loading: false,
+  loggedIn: false,
 };
 
-export const authFeature = createFeature({
-  name: 'auth',
-  reducer: createReducer(
-    authInitialState,
-    on(authActions.getUserSuccess, (state, action) => ({
+export const userAuthReducer = createReducer(
+    initialState,
+    on(loadUser, (state) => ({
       ...state,
+      loading: true,
+    })),
+    on(loadUserSuccess, (state, { user }) => ({
+      ...state,
+      user,
+      loading: false,
       loggedIn: true,
-      user: action.user,
     })),
-    on(authActions.getUserFailure, authActions.logout, () => authInitialState),
-    on(authActions.login, authActions.register, (state) => ({
+    on(loadUserFailure, (state, { error }) => ({
       ...state,
-      status: Status.IN_PROGRESS,
+      error,
+      loading: false,
+      loggedIn: false,
     })),
-    on(authActions.registerSuccess, authActions.loginSuccess, (state, action) => ({
+    on(loginUser, (state) => ({
       ...state,
+      loading: true,
+    })),
+    on(loginUserSuccess, (state, { user }) => ({
+      ...state,
+      user,
+      loading: false,
       loggedIn: true,
-      status: Status.INIT,
-      user: action.user,
     })),
-    on(authActions.registerFailure, authActions.loginFailure, (state) => ({
+    on(loginUserFailure, (state, { error }) => ({
       ...state,
-      status: Status.INIT,
+      error,
+      loading: false,
+      loggedIn: false,
     })),
-  ),
-});
+    on(registerUser, (state) => ({
+      ...state,
+      loading: true,
+    })),
+    on(registerUserSuccess, (state, { user }) => ({
+      ...state,
+      user,
+      loading: false,
+      loggedIn: true,
+    })),
+    on(registerUserFailure, (state, { error }) => ({
+      ...state,
+      error,
+      loading: false,
+      loggedIn: false,
+    })),
+    on(logoutUser, (state) => ({
+      ...state,
+      loading: true,
+    })),
+    on(logoutUserSuccess, (state) => ({
+      ...state,
+      user: {
+        username: '',
+        email: '',
+        tollerance: 0,
+      },
+      loading: false,
+      loggedIn: false,
+    })),
+    on(logoutUserFailure, (state, { error }) => ({
+      ...state,
+      error,
+      loading: false,
+      loggedIn: true,
+    })),
+    on(updateUser, (state) => ({
+      ...state,
+      loading: true,
+    })),
+    on(updateUserSuccess, (state, { user }) => ({
+      ...state,
+      user,
+      loading: false,
+      loggedIn: true,
+    })),
+    on(updateUserFailure, (state, { error }) => ({
+      ...state,
+      error,
+      loading: false,
+      loggedIn: true,
+    }))
+  );

@@ -49,7 +49,25 @@ export class AuthService {
     
   }
 
-  get currentUser() {
-    return
+  getUser(){
+    const httpOptions = {
+      //send jtw token cookie
+      withCredentials: true,
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.get<User>(environment.motherShipUrl + ':' + environment.apiPort + '/api/users/profile/', httpOptions);
+
+    /*
+      should return
+      {
+      "id": 1,
+      "username": "max",
+      "email": "max@mail.com",
+      "profile_pic": null,
+      "news_tollerance": 2
+      }
+    */
   }
 }
