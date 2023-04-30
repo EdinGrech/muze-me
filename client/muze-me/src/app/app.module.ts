@@ -18,6 +18,10 @@ import { RouterState, StoreRouterConnectingModule } from '@ngrx/router-store';
 import { userAuthReducer } from './state/user/user.reducer';
 import { UserEffects } from './state/user/user.effects';
 
+import { newsReducer } from './state/news/news.reducer';
+import { NewsEffects } from './state/news/news.effects';
+
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -25,8 +29,8 @@ import { UserEffects } from './state/user/user.effects';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    StoreModule.forRoot({ auth: userAuthReducer }, {}),
-    EffectsModule.forRoot([UserEffects]),
+    StoreModule.forRoot({ auth: userAuthReducer, news: newsReducer }),
+    EffectsModule.forRoot([UserEffects, NewsEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
     StoreRouterConnectingModule.forRoot({ routerState: RouterState.Minimal }),
   ],

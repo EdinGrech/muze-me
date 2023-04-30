@@ -1,13 +1,10 @@
 import { Injectable } from '@angular/core';
-import { Actions, concatLatestFrom, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   catchError,
   exhaustMap,
   map,
-  mergeMap,
   of,
-  switchMap,
-  tap,
 } from 'rxjs';
 
 import {
@@ -15,14 +12,26 @@ import {
   loadNewsFailure,
   loadNewsSuccess,
 } from './news.actions';
-import { Store } from '@ngrx/store';
-import { User } from 'src/app/interfaces/user';
+
+import { NewsService } from '../../services/news.service';
 
 @Injectable()
-export class UserEffects {
+export class NewsEffects {
   constructor(
     private actions$: Actions,
+    private newsService: NewsService,
   ) {}
 
+  loadNews$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadNews),
+      exhaustMap((action) =>
+        this.newsService.getNews(action.page, action.tollerance).pipe(
+          map((news) => loadNewsSuccess({ news })),
+          catchError((error) => of(loadNewsFailure({ error })))
+        )
+      )
+    )
+  );
 
 }

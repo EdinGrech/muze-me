@@ -6,32 +6,19 @@ import {
   loadNewsFailure,
 } from './news.actions';
 
-export interface UserState {
-  news: News;
+export interface NewsState {
+  news: News[];
   error: any;
   loading: boolean;
 }
 
-export const initialState: UserState = {
-  news: {
-    id: 0,
-    source_id: null,
-    source_name: null,
-    author: null,
-    title: '',
-    description: '',
-    url: '',
-    urlToImage: null,
-    publishedAt: '',
-    content: null,
-    sentement: 0,
-    list_of_keywords: '',
-  },
+export const initialState: NewsState = {
+  news: [],
   error: null,
   loading: false,
 };
 
-export const userAuthReducer = createReducer(
+export const newsReducer = createReducer(
   initialState,
   on(loadNews, (state) => ({
     ...state,

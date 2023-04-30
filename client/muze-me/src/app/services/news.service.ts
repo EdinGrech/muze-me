@@ -15,11 +15,11 @@ export class NewsService {
         'Content-Type': 'application/json',
       }),
     };
-    return this.http.post<any>(
+    return this.http.get<any>(
       environment.motherShipUrl +
         ':' +
         environment.apiPort +
-        '/api/news/' +
+        '/api/news/view-news/' +
         page + '/' + tollerance,
       httpOptions
     );
