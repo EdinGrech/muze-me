@@ -9,8 +9,8 @@ describe('SideBarComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ SideBarComponent ],
-      imports: [IonicModule.forRoot()]
+      declarations: [SideBarComponent],
+      imports: [IonicModule.forRoot()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(SideBarComponent);

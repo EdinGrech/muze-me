@@ -23,19 +23,20 @@ class ViewNews(generics.ListAPIView):
     queryset = News.objects.all()
     serializer_class = NewsSerializer
     def get(self, request, *args, **kwargs):
-        #check if news had been updated or if it is the first time
+        #check if news had been updated or if it is the first time and that match 
         try: 
             if News.objects.all().order_by('-publishedAt').first().publishedAt < timezone.now() - timedelta(hours=int(os.environ.get("HOURS_TO_UPDATE_NEWS"))):
                 news_parser()
         except:
             news_parser()
         page = kwargs.get('page')
+        tollerance = ((kwargs.get('tol')/10)*(2))-1
         if page is not None:
             page = int(page)
             if page > 0:
                 page = page - 1
-                #get 10 most recent news
-                queryset = News.objects.all().order_by('-publishedAt')[page*10:page*10+10]
+                #get 10 most recent news and where sentement is higher then tollerance value
+                queryset = News.objects.all().order_by('-publishedAt').filter(sentement__gt=tollerance)[page*10:(page+1)*10]
                 serializer_class = NewsSerializer(queryset, many=True)
                 return Response(serializer_class.data, status=HTTP_200_OK)
             else:

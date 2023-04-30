@@ -4,21 +4,46 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
+
 import { AuthService } from '../services/auth/auth.service';
-import { UserLoginInterface, UserRegisterInterface } from '../interfaces/user';
+import { User, UserRegisterInterface } from '../interfaces/user';
+
+import {
+  selectUserLoading,
+  selectUserUser,
+  selectUserError,
+  selectUserLoggedIn,
+} from '../state/user/user.selectors';
+import { loginUser, registerUser } from '../state/user/user.actions';
+
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.page.html',
   styleUrls: ['./auth.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule]
+  imports: [IonicModule, CommonModule, FormsModule, ReactiveFormsModule],
 })
 export class AuthPage implements OnInit {
   screen: any = 'signin';
   formData: FormGroup;
   isLoading: boolean = false;
-  constructor(private fb: FormBuilder, private auth: AuthService) {
+
+  user$: Observable<User> = this.store.select(selectUserUser);
+  loading$: Observable<boolean> = this.store.select(selectUserLoading);
+  error$: any = this.store.select(selectUserError);
+  errorDescription: string = '';
+  loggedIn$: Observable<boolean> = this.store.select(selectUserLoggedIn);
+
+  constructor(
+    private fb: FormBuilder,
+    private auth: AuthService,
+    public store: Store<{ auth: any }>,
+    private router: Router
+  ) {
     this.formData = this.fb.group({
       name: ['', [Validators.required]],
       email: ['', [Validators.required, Validators.email]],
@@ -26,50 +51,58 @@ export class AuthPage implements OnInit {
     });
   }
 
-  ngOnInit() { }
+  ngOnInit() {}
 
   change(event: any) {
     this.screen = event;
   }
 
   login() {
-    var formData_: any = new FormData();
-    this.isLoading = true
+    let formData_: any = new FormData();
+    this.isLoading = true;
     formData_.append('email', this.formData.get('email')!.value);
     formData_.append('password', this.formData.get('password')!.value);
-    this.auth.signInWithEmail(formData_.get('email'), formData_.get('password')).subscribe((res) => {
-      console.log(res);
-      if (res.status == 200) {
-        console.log("Logged in");
-      }else{
-        console.log(res.statusTest)
-      }
-      this.isLoading = false
-    }
+    this.store.dispatch(
+      loginUser({
+        email: formData_.get('email'),
+        password: formData_.get('password'),
+      })
     );
+    this.error$.subscribe((error: any) => {
+      this.isLoading = false;
+      if (error) {
+        console.log(error.error.detail);
+        this.errorDescription = error.error.detail;
+      }else{
+        this.router.navigate(['/news/home']);
+      }
+    });
   }
 
   register() {
     var formData: any = new FormData();
     if (this.formData.valid) {
-      this.isLoading = true
+      this.isLoading = true;
       formData.append('name', this.formData.get('name')!.value);
       formData.append('email', this.formData.get('email')!.value);
       formData.append('password', this.formData.get('password')!.value);
 
-      const user: UserRegisterInterface = {
-        username: formData.get('name'),
-        email: formData.get('email'),
-        password: formData.get('password'),
-        tollerance: 0
-      };
-      
-      this.auth.signUp(user).subscribe((res) => {
-        console.log(res);
-        this.isLoading = false
-        this.screen = 'signin';
-      }
+      this.store.dispatch(
+        registerUser({
+          username: formData.get('name'),
+          email: formData.get('email'),
+          password: formData.get('password'),
+        })
       );
+      this.error$.subscribe((error: any) => {
+        this.isLoading = false;
+        if (error) {
+          console.log(error.error.detail);
+          this.errorDescription = error.error.detail;
+        }else{
+          this.screen = 'signin';
+        }
+      });   
     }
   }
 }

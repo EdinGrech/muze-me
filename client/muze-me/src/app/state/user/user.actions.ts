@@ -1,4 +1,4 @@
-import {User} from '../../interfaces/user';
+import { User } from '../../interfaces/user';
 import { createAction, props } from '@ngrx/store';
 
 export const loadUser = createAction('[User] User Offers');
@@ -20,7 +20,7 @@ export const loginUser = createAction(
 
 export const loginUserSuccess = createAction(
   '[User] Login User Success',
-  props<{ user: User }>()
+  props<{ user: any }>()
 );
 
 export const loginUserFailure = createAction(

@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import { User, UserLoginInterface, UserRegisterInterface, UserSignUpResponse } from 'src/app/interfaces/user';
+import {
+  User,
+  UserSignUpResponse,
+} from 'src/app/interfaces/user';
 
 @Injectable({
   providedIn: 'root',
@@ -10,19 +13,22 @@ import { User, UserLoginInterface, UserRegisterInterface, UserSignUpResponse } f
 export class AuthService {
   constructor(private http: HttpClient) {}
 
-  signUp(user: UserRegisterInterface): Observable<UserSignUpResponse> {
+  signUp(username:string, email:string, password:string): Observable<UserSignUpResponse> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
       }),
     };
     const body = {
-      username: user.username,
-      email: user.email,
-      password: user.password,
+      username: username,
+      email: email,
+      password: password,
     };
     return this.http.post<UserSignUpResponse>(
-      environment.motherShipUrl + ':' + environment.apiPort + '/api/users/register/',
+      environment.motherShipUrl +
+        ':' +
+        environment.apiPort +
+        '/api/users/register/',
       body,
       httpOptions
     );
@@ -38,18 +44,20 @@ export class AuthService {
       email: email,
       password: password,
     };
+    console.log(body); //TODO: remove
     return this.http.post<any>(
-      environment.motherShipUrl + ':' + environment.apiPort + '/api/users/login/',
+      environment.motherShipUrl +
+        ':' +
+        environment.apiPort +
+        '/api/users/login/',
       body,
       httpOptions
     );
   }
 
-  logout() {
-    
-  }
+  logout() {}
 
-  getUser(){
+  getUser() {
     const httpOptions = {
       //send jtw token cookie
       withCredentials: true,
@@ -57,7 +65,13 @@ export class AuthService {
         'Content-Type': 'application/json',
       }),
     };
-    return this.http.get<User>(environment.motherShipUrl + ':' + environment.apiPort + '/api/users/profile/', httpOptions);
+    return this.http.get<User>(
+      environment.motherShipUrl +
+        ':' +
+        environment.apiPort +
+        '/api/users/profile/',
+      httpOptions
+    );
 
     /*
       should return

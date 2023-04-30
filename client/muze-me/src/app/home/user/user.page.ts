@@ -9,13 +9,10 @@ import { SideBarComponent } from '../../components/side-bar/side-bar.component';
   templateUrl: './user.page.html',
   styleUrls: ['./user.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, SideBarComponent]
+  imports: [IonicModule, CommonModule, FormsModule, SideBarComponent],
 })
 export class UserPage implements OnInit {
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit() {
-  }
-
+  ngOnInit() {}
 }
