@@ -31,7 +31,6 @@ class ViewNews(generics.ListAPIView):
             news_parser()
         page = kwargs.get('page')
         tollerance = ((kwargs.get('tol')/10)*(2))-1
-        print(tollerance)
         if page is not None:
             page = int(page)
             if page > 0:
