@@ -74,4 +74,12 @@ export class HomePage implements OnInit {
   scrollToTop() {
     this.content.scrollToTop(this.newsList$.length*20);
   }
+
+  handleRefresh(event: any){
+    this.newsList$ = [];
+    this.generateItems();
+    setTimeout(() => {
+      event.target.complete();
+    }, 500);
+  }
 }
