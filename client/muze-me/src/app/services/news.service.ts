@@ -3,13 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class NewsService {
-
   constructor(private http: HttpClient) {}
 
-  getNews(page: number, tollerance:number) {
+  getNews(page: number, tollerance: number) {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -20,7 +19,9 @@ export class NewsService {
         ':' +
         environment.apiPort +
         '/api/news/view-news/' +
-        page + '/' + tollerance,
+        page +
+        '/' +
+        tollerance,
       httpOptions
     );
   }

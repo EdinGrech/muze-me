@@ -3,8 +3,7 @@
     <ion-content>
       <ion-list id="inbox-list">
         <ion-list-header>Muze-me</ion-list-header>
-        <!-- <ion-note>{{ user.username }}</ion-note> -->
-        <ion-note>placeholder-username</ion-note>
+        <ion-note>{{ email }}</ion-note>
 
         <ion-menu-toggle auto-hide="false">
           <ion-item
@@ -66,7 +65,13 @@
             style="font-size: 20px; padding-left: 24px; padding-bottom: 9px"
             >News Negativity</ion-label
           >
-          <ion-range [ticks]="true" [snaps]="true" [min]="0" [max]="10">
+          <ion-range
+            [ticks]="true"
+            [snaps]="true"
+            [value]="tollerance"
+            [min]="0"
+            [max]="10"
+          >
             <ion-icon slot="start" name="sunny-outline"></ion-icon>
             <ion-icon slot="end" name="thunderstorm-outline"></ion-icon>
           </ion-range>

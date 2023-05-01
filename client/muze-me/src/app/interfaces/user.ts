@@ -1,7 +1,7 @@
 export interface User {
   username: string;
   email: string;
-  tollerance: number | 0;
+  news_tollerance: number | 0;
 }
 
 export interface UserLoginInterface {

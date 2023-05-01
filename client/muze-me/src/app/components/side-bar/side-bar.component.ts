@@ -1,8 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { IonicModule } from '@ionic/angular';
+import { IonicModule, RangeCustomEvent } from '@ionic/angular';
 
+import { Store } from '@ngrx/store';
+import { User } from 'src/app/interfaces/user';
+import { Observable } from 'rxjs';
+
+import { loadUser } from 'src/app/state/user/user.actions';
+import { updateUser } from 'src/app/state/user/user.actions';
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
@@ -10,15 +16,31 @@ import { IonicModule } from '@ionic/angular';
   standalone: true,
   imports: [IonicModule, RouterLink, RouterLinkActive, CommonModule],
 })
-export class SideBarComponent {
-  public appPages = [
-    { title: 'Inbox', url: '/folder/inbox', icon: 'mail' },
-    { title: 'Outbox', url: '/folder/outbox', icon: 'paper-plane' },
-    { title: 'Favorites', url: '/folder/favorites', icon: 'heart' },
-    { title: 'Archived', url: '/folder/archived', icon: 'archive' },
-    { title: 'Trash', url: '/folder/trash', icon: 'trash' },
-    { title: 'Spam', url: '/folder/spam', icon: 'warning' },
-  ];
-  public labels = ['Family', 'Friends', 'Notes', 'Work', 'Travel', 'Reminders'];
-  constructor() {}
+export class SideBarComponent implements OnInit {
+  constructor(private store: Store<{ auth: any; news: any }>) {}
+  user: Observable<User> = this.store.select((state) => state.auth.user);
+  email: string = '';
+  username: string = '';
+  tollerance!: number;
+  ngOnInit() {
+    this.store.dispatch(loadUser());
+    this.user.subscribe((user: User) => {
+      this.email = user.email;
+      this.username = user.username;
+      this.tollerance = user.news_tollerance;
+    });
+  }
+
+  onIonChange(ev: Event) {
+    this.tollerance = +(ev as RangeCustomEvent).detail.value;
+    this.store.dispatch(
+      updateUser({
+        user: {
+          email: this.email,
+          username: this.username,
+          news_tollerance: this.tollerance,
+        },
+      })
+    );
+  }
 }

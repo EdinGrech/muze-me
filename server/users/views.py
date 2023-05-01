@@ -38,14 +38,11 @@ class LoginAPIView(APIView):
             "id": user.id,
             "email": user.email,
             "news_tollerance": user.news_tollerance,
-            "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=60),
+            "exp": datetime.datetime.utcnow() + datetime.timedelta(minutes=10080),
             "iat": datetime.datetime.utcnow()
         }
 
-        token = jwt.encode(payload, 'secret', algorithm='HS256')
-        # token.decode('utf-8')
-        #we set token via cookies
-        
+        token = jwt.encode(payload, 'secret', algorithm='HS256')      
 
         response = Response() 
 
@@ -62,14 +59,13 @@ class LoginAPIView(APIView):
 # get user using cookie
 class UserView(APIView):
     def get(self, request):
-        token = request.COOKIES.get('jwt')
+        token = request.headers.get('Authorization').split(' ')[1]
 
         if not token:
             raise AuthenticationFailed("Unauthenticated!")
         
         try:
             payload = jwt.decode(token, 'secret', algorithms="HS256")
-            #decode gets the user
 
         except jwt.ExpiredSignatureError:
             raise AuthenticationFailed("Unauthenticated!")
@@ -93,7 +89,7 @@ class LogoutView(APIView):
     
 class UserUpdateView(APIView):
     def put(self, request):
-        token = request.COOKIES.get('jwt')
+        token = request.headers.get('Authorization').split(' ')[1]
 
         if not token:
             raise AuthenticationFailed("Unauthenticated!")

@@ -11,33 +11,48 @@ import { Observable } from 'rxjs';
 import { loadNews } from '../state/news/news.actions';
 
 import { NewsCardComponent } from './components/news-card/news-card.component';
+import { loadUser } from '../state/user/user.actions';
 
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, SideBarComponent, NewsCardComponent],
+  imports: [
+    IonicModule,
+    CommonModule,
+    FormsModule,
+    SideBarComponent,
+    NewsCardComponent,
+  ],
 })
 export class HomePage implements OnInit {
-  constructor(private store: Store<{auth:any, news: any}>,) {}
-  newsList$:News[] = [];
-  newNewsList$:Observable<News[]> = this.store.select(state => state.news.news);
-  error$:any = this.store.select(state => state.news.error);
-  loading$:any = this.store.select(state => state.news.loading);
+  constructor(private store: Store<{ auth: any; news: any }>) {}
+  newsList$: News[] = [];
+  newNewsList$: Observable<News[]> = this.store.select(
+    (state) => state.news.news
+  );
+  error$: any = this.store.select((state) => state.news.error);
+  loading$: any = this.store.select((state) => state.news.loading);
+  user$: any = this.store.select((state) => state.auth.user);
 
   ngOnInit() {
+    this.store.dispatch(loadUser());
     this.generateItems();
   }
 
   private generateItems() {
-    const page = (this.newsList$.length / 10)+1;
-    this.store.dispatch(loadNews({ page: page, tollerance: 0 }));//to get tollerence from  user at some point
-    this.newNewsList$.subscribe((news:News[]) => {
-      console.log(news);
-      this.newsList$ = this.newsList$.concat(news);
-    }
-    );
+    const page = this.newsList$.length / 10 + 1;
+    this.user$.subscribe((user: any) => {
+      let tollerance: number;
+      if (user) {
+        tollerance = user.news_tollerance;
+      }
+      this.store.dispatch(loadNews({ page: page, tollerance: tollerance! })); //to get tollerence from  user at some point
+      this.newNewsList$.subscribe((news: News[]) => {
+        this.newsList$ = this.newsList$.concat(news);
+      });
+    });
   }
 
   onIonInfinite(ev: Event) {

@@ -8,12 +8,11 @@ import { News } from '../../../interfaces/news';
   templateUrl: './news-card.component.html',
   styleUrls: ['./news-card.component.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule,],
+  imports: [IonicModule, CommonModule],
 })
-export class NewsCardComponent{
+export class NewsCardComponent {
   @Input() news!: News;
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {}
-
 }

@@ -1,5 +1,5 @@
 export interface News {
-    /*{
+  /*{
         "id": 1,
         "source_id": "reuters",
         "source_name": "Reuters",
@@ -14,16 +14,16 @@ export interface News {
         "list_of_keywords": "sunday said four"
     },
     */
-    id: number;
-    source_id: string | null;
-    source_name: string | null;
-    author: string | null;
-    title: string;
-    description: string;
-    url: string;
-    urlToImage: string | null;
-    publishedAt: string;
-    content: string | null;
-    sentement: number;
-    list_of_keywords: string;
+  id: number;
+  source_id: string | null;
+  source_name: string | null;
+  author: string | null;
+  title: string;
+  description: string;
+  url: string;
+  urlToImage: string | null;
+  publishedAt: string;
+  content: string | null;
+  sentement: number;
+  list_of_keywords: string;
 }

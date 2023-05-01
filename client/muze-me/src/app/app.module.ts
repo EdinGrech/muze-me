@@ -21,7 +21,6 @@ import { UserEffects } from './state/user/user.effects';
 import { newsReducer } from './state/news/news.reducer';
 import { NewsEffects } from './state/news/news.effects';
 
-
 @NgModule({
   declarations: [AppComponent],
   imports: [

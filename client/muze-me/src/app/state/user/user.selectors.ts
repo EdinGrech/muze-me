@@ -1,7 +1,6 @@
 import { createSelector } from '@ngrx/store';
 import { AppState } from '../app.state';
 import { UserState } from './user.reducer';
-import { User } from '../../interfaces/user';
 
 export const selectUser = (state: AppState) => state.auth;
 

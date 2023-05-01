@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'users',
     'news_module',
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
@@ -53,7 +54,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'muze_me.middleware.CorsMiddleware'
+    'muze_me.middleware.CorsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'muze_me.urls'
@@ -132,6 +135,10 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'users.User'
 # override default User model
 
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:8100',
+    #'http://' + os.environ.get("FRONTEND_HOST") + ':' + os.environ.get("FRONTEND_PORT"),
+] 
 
 CORS_ORIGIN_ALLOW_ALL = True # FRONTEND PORT ACCESS
 CORS_ALLOW_CREDENTIALS = True # fCOOKIES FOR FRONTEND

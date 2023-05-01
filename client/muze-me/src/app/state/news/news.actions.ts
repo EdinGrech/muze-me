@@ -3,7 +3,8 @@ import { createAction, props } from '@ngrx/store';
 
 export const loadNews = createAction(
   '[News] Load news',
-  props<{ page: number, tollerance: number }>());
+  props<{ page: number; tollerance: number }>()
+);
 
 export const loadNewsSuccess = createAction(
   '[User] Load News Success',

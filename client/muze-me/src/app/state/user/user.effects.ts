@@ -21,7 +21,10 @@ import {
   loginUserSuccess,
   registerUser,
   registerUserFailure,
-registerUserSuccess,
+  registerUserSuccess,
+  updateUser,
+  updateUserSuccess,
+  updateUserFailure,
 } from './user.actions';
 import { Store } from '@ngrx/store';
 import { User } from 'src/app/interfaces/user';
@@ -68,6 +71,18 @@ export class UserEffects {
             map((user: any) => loginUserSuccess({ user })),
             catchError((error: any) => of(loginUserFailure({ error })))
           )
+      )
+    )
+  );
+
+  updateUser$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(updateUser),
+      mergeMap((action) =>
+        this.authService.updateUser(action.user).pipe(
+          map((user: any) => loginUserSuccess({ user })),
+          catchError((error: any) => of(loginUserFailure({ error })))
+        )
       )
     )
   );

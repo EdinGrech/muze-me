@@ -41,7 +41,7 @@ export class AuthPage implements OnInit {
   constructor(
     private fb: FormBuilder,
     private auth: AuthService,
-    public store: Store<{ auth: any, news: any }>,
+    public store: Store<{ auth: any; news: any }>,
     private router: Router
   ) {
     this.formData = this.fb.group({
@@ -73,7 +73,7 @@ export class AuthPage implements OnInit {
       if (error) {
         console.log(error.error.detail);
         this.errorDescription = error.error.detail;
-      }else{
+      } else {
         this.router.navigate(['/news/home']);
       }
     });
@@ -99,10 +99,10 @@ export class AuthPage implements OnInit {
         if (error) {
           console.log(error.error.detail);
           this.errorDescription = error.error.detail;
-        }else{
+        } else {
           this.screen = 'signin';
         }
-      });   
+      });
     }
   }
 }

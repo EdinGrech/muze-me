@@ -1,19 +1,22 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, Observable, map } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-import {
-  User,
-  UserSignUpResponse,
-} from 'src/app/interfaces/user';
+import { User, UserSignUpResponse } from 'src/app/interfaces/user';
+
+import { CookieService } from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private cookieService: CookieService) {}
 
-  signUp(username:string, email:string, password:string): Observable<UserSignUpResponse> {
+  signUp(
+    username: string,
+    email: string,
+    password: string
+  ): Observable<UserSignUpResponse> {
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -44,25 +47,31 @@ export class AuthService {
       email: email,
       password: password,
     };
-    console.log(body); //TODO: remove
-    return this.http.post<any>(
-      environment.motherShipUrl +
-        ':' +
-        environment.apiPort +
-        '/api/users/login/',
-      body,
-      httpOptions
-    );
+    return this.http
+      .post<any>(
+        environment.motherShipUrl +
+          ':' +
+          environment.apiPort +
+          '/api/users/login/',
+        body,
+        httpOptions
+      )
+      .pipe(
+        map((response: any) => {
+          console.log(response['jwt token']);
+          this.cookieService.set('jwt', response['jwt token']);
+          return response;
+        })
+      );
   }
 
   logout() {}
 
   getUser() {
     const httpOptions = {
-      //send jtw token cookie
-      withCredentials: true,
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + this.cookieService.get('jwt'),
       }),
     };
     return this.http.get<User>(
@@ -72,16 +81,28 @@ export class AuthService {
         '/api/users/profile/',
       httpOptions
     );
+  }
 
-    /*
-      should return
-      {
-      "id": 1,
-      "username": "max",
-      "email": "max@mail.com",
-      "profile_pic": null,
-      "news_tollerance": 2
-      }
-    */
+  updateUser(user: User) {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        Authorization: 'Bearer ' + this.cookieService.get('jwt'),
+      }),
+    };
+    const body = {
+      username: user.username,
+      email: user.email,
+      profile_pic: null,
+      news_tollerance: user.news_tollerance,
+    };
+    return this.http.put<User>(
+      environment.motherShipUrl +
+        ':' +
+        environment.apiPort +
+        '/api/users/update/',
+      body,
+      httpOptions
+    );
   }
 }

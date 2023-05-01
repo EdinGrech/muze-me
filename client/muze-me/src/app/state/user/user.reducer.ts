@@ -29,7 +29,7 @@ export const initialState: UserState = {
   user: {
     username: '',
     email: '',
-    tollerance: 0,
+    news_tollerance: 0,
   },
   error: null,
   loading: false,
@@ -95,7 +95,7 @@ export const userAuthReducer = createReducer(
     user: {
       username: '',
       email: '',
-      tollerance: 0,
+      news_tollerance: 0,
     },
     loading: false,
     loggedIn: false,
