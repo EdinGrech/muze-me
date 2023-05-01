@@ -71,6 +71,7 @@
             [value]="tollerance"
             [min]="0"
             [max]="10"
+            (ionChange)="onIonChange($event)"
           >
             <ion-icon slot="start" name="sunny-outline"></ion-icon>
             <ion-icon slot="end" name="thunderstorm-outline"></ion-icon>
