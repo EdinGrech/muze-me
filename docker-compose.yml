@@ -1,13 +1,17 @@
 version: "3.9"
 services:
   backend:
-    build: .
+    env_file:
+      - .env
+    build: ./server
     ports:
       - "${backendPort}:8000"
     environment:
       - BACKEND_URL=${backendUrl}
   nginx:
-    build: ./nginx
+    env_file:
+      - .env
+    build: ./client
     ports:
       - "${frontEndPort}:80"
     depends_on:
