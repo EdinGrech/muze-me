@@ -49,6 +49,19 @@ export class AuthPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
+    this.error$.subscribe((error: any) => {
+      this.isLoading = false;
+      if (error) {
+        console.log(error.error.detail);
+        this.errorDescription = error.error.detail;
+      }
+    });
+    this.loggedIn$.subscribe((loggedIn: boolean) => {
+      if (loggedIn) {
+        this.isLoading = false;
+        this.router.navigate(['/news']);
+      }
+    });
   }
 
   ngOnInit() {}
@@ -68,15 +81,6 @@ export class AuthPage implements OnInit {
         password: formData_.get('password'),
       })
     );
-    this.error$.subscribe((error: any) => {
-      this.isLoading = false;
-      if (error) {
-        console.log(error.error.detail);
-        this.errorDescription = error.error.detail;
-      } else {
-        this.router.navigate(['/news/home']);
-      }
-    });
   }
 
   register() {

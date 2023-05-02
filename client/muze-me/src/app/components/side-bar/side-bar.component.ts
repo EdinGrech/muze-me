@@ -7,8 +7,8 @@ import { Store } from '@ngrx/store';
 import { User } from 'src/app/interfaces/user';
 import { Observable } from 'rxjs';
 
-import { loadUser } from 'src/app/state/user/user.actions';
-import { updateUser } from 'src/app/state/user/user.actions';
+import { loadUser, updateUser, logoutUser } from 'src/app/state/user/user.actions';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-side-bar',
   templateUrl: './side-bar.component.html',
@@ -17,7 +17,7 @@ import { updateUser } from 'src/app/state/user/user.actions';
   imports: [IonicModule, RouterLink, RouterLinkActive, CommonModule],
 })
 export class SideBarComponent implements OnInit {
-  constructor(private store: Store<{ auth: any; news: any }>) {}
+  constructor(private store: Store<{ auth: any; news: any }>, private router:Router) {}
   user: Observable<User> = this.store.select((state) => state.auth.user);
   email: string = '';
   username: string = '';
@@ -42,5 +42,10 @@ export class SideBarComponent implements OnInit {
         },
       })
     );
+  }
+
+  logout() {
+    this.store.dispatch(logoutUser());
+    this.router.navigate(['/auth']);
   }
 }

@@ -65,7 +65,21 @@ export class AuthService {
       );
   }
 
-  logout() {}
+  logout() {
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+    };
+    return this.http.post<any>(
+      environment.motherShipUrl +
+        ':' +
+        environment.apiPort +
+        '/api/users/logout/',
+      {},
+      httpOptions
+    );
+  }
 
   getUser() {
     const httpOptions = {
