@@ -9,6 +9,6 @@ COPY ./muze-me /usr/src/app
 WORKDIR /usr/src/app
 RUN npm install
 RUN ionic build --prod
-RUN cp -R ./muze-me/www/* /usr/share/nginx/html
+RUN cp -R /usr/src/app/www/* /usr/share/nginx/html
 
 EXPOSE 80
