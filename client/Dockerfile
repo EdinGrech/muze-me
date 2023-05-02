@@ -1,9 +1,14 @@
-FROM nginx:1.21-alpine
-RUN apk update && apk add nodejs npm
-WORKDIR /app
-COPY ./muze-me/www /app
+FROM nginx
+
+RUN apt-get update && \
+    apt-get install -y curl && \
+    curl -sL https://deb.nodesource.com/setup_16.x | bash - && \
+    apt-get install -y nodejs
+RUN npm install -g @ionic/cli
+COPY ./muze-me /usr/src/app
+WORKDIR /usr/src/app
 RUN npm install
-RUN npm run build --prod
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+RUN ionic build --prod
+RUN cp -R ./muze-me/www/* /usr/share/nginx/html
 
 EXPOSE 80

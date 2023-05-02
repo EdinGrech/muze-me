@@ -16,3 +16,6 @@ python manage.py startapp <app name> <- app is a component of the project
 python -m pip install Pillow
 
 *** important change to middleware setting and file, to adjust later on in development ( to allow app to communicate with the api) *** 
+
+docker system prune -a -f --volumes
+*** still need to add .env for server manually ***
