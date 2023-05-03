@@ -78,13 +78,11 @@ export const userAuthReducer = createReducer(
     ...state,
     user,
     loading: false,
-    loggedIn: true,
   })),
   on(registerUserFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
-    loggedIn: false,
   })),
   on(logoutUser, (state) => ({
     ...state,

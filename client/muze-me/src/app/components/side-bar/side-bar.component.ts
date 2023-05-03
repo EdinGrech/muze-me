@@ -18,13 +18,14 @@ import { Router } from '@angular/router';
 })
 export class SideBarComponent implements OnInit {
   constructor(private store: Store<{ auth: any; news: any }>, private router:Router) {}
-  user: Observable<User> = this.store.select((state) => state.auth.user);
+  user$: any = this.store.select((state) => state.auth.user);
+  loggedIn$: any = this.store.select((state) => state.auth.loggedIn);
   email: string = '';
   username: string = '';
   tollerance!: number;
   ngOnInit() {
     this.store.dispatch(loadUser());
-    this.user.subscribe((user: User) => {
+    this.user$.subscribe((user: User) => {
       this.email = user.email;
       this.username = user.username;
       this.tollerance = user.news_tollerance;
@@ -45,6 +46,8 @@ export class SideBarComponent implements OnInit {
   }
 
   logout() {
+    this.user$ = null;
+    this.loggedIn$ = false;
     this.store.dispatch(logoutUser());
     this.router.navigate(['/auth']);
   }

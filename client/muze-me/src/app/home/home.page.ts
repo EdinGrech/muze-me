@@ -37,7 +37,11 @@ export class HomePage implements OnInit {
   user$:any = this.store.select(state => state.auth.user);
 
   ngOnInit() {
-    this.generateItems();
+    this.user$.subscribe((user:any) => {
+      if(user){
+        this.generateItems();
+      }
+    });
   }
 
   private generateItems() {

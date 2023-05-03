@@ -57,8 +57,11 @@ export class AuthPage implements OnInit {
       }
     });
     this.loggedIn$.subscribe((loggedIn: boolean) => {
-      if (loggedIn) {
+      console.log(loggedIn);
+      if (loggedIn == true) {
+        console.log('logged in');
         this.isLoading = false;
+        this.error$ = null;
         this.router.navigate(['/news']);
       }
     });
