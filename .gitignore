@@ -1,9 +1,9 @@
 /server/venv
 /server/db.sqlite3
 /server/muze_me/__pycache__
-/server/muze_me/migrations/
+/server/muze_me/migrations/__pycache__
 /server/users/__pycache__
-/server/users/migrations/
+/server/users/migrations/__pycache__
 /server/news_module/__pycache__
-/server/news_module/migrations/
+/server/news_module/migrations/__pycache__
 /server/.env
