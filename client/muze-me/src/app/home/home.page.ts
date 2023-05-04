@@ -55,7 +55,8 @@ export class HomePage implements OnInit {
   }
 
   private generateItems() {
-    const page = this.newsList$.length / 10 + 1;
+    //get page number per page 10 items, round if needed
+    const page = Math.floor(this.newsList$.length / 10) + 1;
     let tollerance: number;
     this.user$.subscribe((user: any) => {
       if (user) {
@@ -67,9 +68,6 @@ export class HomePage implements OnInit {
 
   onIonInfinite(ev: Event) {
     this.generateItems();
-    setTimeout(() => {
-      (ev as InfiniteScrollCustomEvent).target.complete();
-    }, 500);
   }
 
   lastScrollSpot: number = 0;
