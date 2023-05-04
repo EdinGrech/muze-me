@@ -41,13 +41,6 @@
       <p class="signup-text">
         I'm a new user&nbsp;<a (click)="change('signup')">Sign Up?</a>
       </p>
-      <!-- display error$ if raised -->
-      <div *ngIf="error$ | async as error" class="error">
-        <ion-item color="danger">
-          <ion-label> {{ errorDescription }} </ion-label>
-          <ion-icon name="close-circle-outline"></ion-icon>
-        </ion-item>
-      </div>
       <ion-button
         color="warning"
         class="login-button"
@@ -64,6 +57,13 @@
       <div>Create an <span class="gradient2">Account</span></div>
     </ion-list-header>
     <ion-note class="para">Sign up to get started!</ion-note>
+    <ion-alert
+      [isOpen]="isAlertOpen"
+      header="{{alertHeader}}"
+      message="{{alertMessage}}"
+      [buttons]="alertButtons"
+      (didDismiss)="setAlertOpen(false)"
+    ></ion-alert>
     <form [formGroup]="formData">
       <ion-item fill="outline">
         <ion-label

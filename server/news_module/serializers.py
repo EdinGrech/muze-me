@@ -16,6 +16,7 @@ class NewsSerializer(serializers.ModelSerializer):
     content = serializers.CharField()
     sentement = serializers.FloatField()
     list_of_keywords = serializers.CharField(allow_null=True)
+    add_date = serializers.DateTimeField(allow_null=True)
 
     class Meta:
         model = News
@@ -32,5 +33,6 @@ class NewsSerializer(serializers.ModelSerializer):
             'content',
             'sentement',
             'list_of_keywords',
+            'add_date',
         )
     

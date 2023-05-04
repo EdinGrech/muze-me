@@ -25,8 +25,8 @@ export class SideBarComponent implements OnInit {
     private store: Store<{ auth: any; news: any }>,
     private router: Router
   ) {}
-  user$: any = this.store.select((state) => state.auth.user);
-  loggedIn$: any = this.store.select((state) => state.auth.loggedIn);
+  user$: Observable<User> = this.store.select((state) => state.auth.user);
+  loggedIn$: Observable<boolean> = this.store.select((state) => state.auth.loggedIn);
   email: string = '';
   username: string = '';
   tollerance!: number;
@@ -53,8 +53,6 @@ export class SideBarComponent implements OnInit {
   }
 
   logout() {
-    this.user$ = null;
-    this.loggedIn$ = false;
     this.store.dispatch(logoutUser());
     this.router.navigate(['/auth']);
   }

@@ -12,6 +12,7 @@ class News(models.Model):
     content = models.TextField()
     sentement = models.FloatField(null=False,default=0.0)
     list_of_keywords = models.CharField(max_length=100, null=True)
+    add_date = models.DateTimeField(null=True)
 
 # Example of a response from the News API:
 # {

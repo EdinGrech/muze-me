@@ -40,7 +40,6 @@ export class AuthPage implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private auth: AuthService,
     public store: Store<{ auth: any; news: any }>,
     private router: Router
   ) {
@@ -49,20 +48,48 @@ export class AuthPage implements OnInit {
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required]],
     });
-    this.error$.subscribe((error: any) => {
+    this.user$.subscribe((user$: User) => {
       this.isLoading = false;
-      if (error) {
-        console.log(error.error.detail);
-        this.errorDescription = error.error.detail;
+      console.log(user$, this.error$);
+      if(user$ && this.error$ == null){
+        this.alertHeader = 'Success';
+        this.alertMessage = 'You have successfully registered!';
+        this.alertButtons = [
+          {
+            text: 'Ok',
+            handler: () => {
+              this.screen = 'signin';
+              this.setAlertOpen(false);
+            },
+          },
+        ];
+        this.setAlertOpen(true);
       }
     });
     this.loggedIn$.subscribe((loggedIn: boolean) => {
-      console.log(loggedIn);
       if (loggedIn == true) {
-        console.log('logged in');
         this.isLoading = false;
-        this.error$ = null;
         this.router.navigate(['/news']);
+      }
+    });
+    this.error$.subscribe((error: any) => {
+      this.isLoading = false;
+      if(error){
+        //for items in error.error
+        for (const [key, value] of Object.entries(error.error)) {
+          this.errorDescription = this.errorDescription + value + ' ';
+        }
+        this.alertHeader = 'Error';
+        this.alertMessage = 'Something went wrong! ' + this.errorDescription + 'Please try again!';
+        this.alertButtons = [
+          {
+            text: 'Ok',
+            handler: () => {
+              this.setAlertOpen(false);
+            }
+          }
+        ];
+        this.setAlertOpen(true);
       }
     });
   }
@@ -101,15 +128,15 @@ export class AuthPage implements OnInit {
           password: formData.get('password'),
         })
       );
-      this.error$.subscribe((error: any) => {
-        this.isLoading = false;
-        if (error) {
-          console.log(error.error.detail);
-          this.errorDescription = error.error.detail;
-        } else {
-          this.screen = 'signin';
-        }
-      });
     }
+  }
+
+  isAlertOpen: boolean = false;
+  alertHeader: string = '';
+  alertMessage: string = '';
+  alertButtons: any;
+
+  setAlertOpen(value: boolean) {
+    this.isAlertOpen = value;
   }
 }

@@ -4,6 +4,7 @@ import nltk
 from .models import News
 nltk.download('vader_lexicon')
 from .news_keyword_extractor import extract_keywords
+from django.utils import timezone
 
 def sentementalizro(text):
     from nltk.sentiment.vader import SentimentIntensityAnalyzer
@@ -26,6 +27,7 @@ def news_parser():
                 artical['content'] = artical['description']
             artical['sentement'] = sentementalizro(artical['content'])
             artical['list_of_keywords'] = extract_keywords(artical['description'])
+            artical['add_date'] = timezone.now()
             serializer = NewsSerializer(data=artical)
             if serializer.is_valid():
                 serializer.save()

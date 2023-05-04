@@ -45,7 +45,7 @@ export class UserEffects {
       ofType(loadUser),
       mergeMap(() =>
         this.authService.getUser().pipe(
-          map((user: any) => loginUserSuccess({ user: user })),
+          map((user: any) => loadUserSuccess({ user: user })),
           catchError((error) => of(loadUserFailure({ error })))
         )
       )
@@ -71,8 +71,8 @@ export class UserEffects {
         this.authService
           .signUp(action.username, action.email, action.password)
           .pipe(
-            map((user: any) => loginUserSuccess({ user })),
-            catchError((error: any) => of(loginUserFailure({ error })))
+            map((user: any) => registerUserSuccess({ user })),
+            catchError((error: any) => of(registerUserFailure({ error })))
           )
       )
     )
@@ -83,8 +83,8 @@ export class UserEffects {
       ofType(updateUser),
       mergeMap((action) =>
         this.authService.updateUser(action.user).pipe(
-          map((user: any) => loginUserSuccess({ user })),
-          catchError((error: any) => of(loginUserFailure({ error })))
+          map((user: any) => updateUserSuccess({ user })),
+          catchError((error: any) => of(updateUserFailure({ error })))
         )
       )
     )

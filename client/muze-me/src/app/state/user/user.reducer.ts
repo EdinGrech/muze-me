@@ -73,16 +73,19 @@ export const userAuthReducer = createReducer(
   on(registerUser, (state) => ({
     ...state,
     loading: true,
+    loggedIn: false,
   })),
   on(registerUserSuccess, (state, { user }) => ({
     ...state,
     user,
     loading: false,
+    loggedIn: false,
   })),
   on(registerUserFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
+    loggedIn: false,
   })),
   on(logoutUser, (state) => ({
     ...state,
@@ -102,7 +105,7 @@ export const userAuthReducer = createReducer(
     ...state,
     error,
     loading: false,
-    loggedIn: true,
+    loggedIn: false,
   })),
   on(updateUser, (state) => ({
     ...state,
@@ -112,12 +115,10 @@ export const userAuthReducer = createReducer(
     ...state,
     user,
     loading: false,
-    loggedIn: true,
   })),
   on(updateUserFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
-    loggedIn: true,
   }))
 );
