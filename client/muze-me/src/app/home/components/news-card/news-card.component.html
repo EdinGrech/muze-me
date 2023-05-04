@@ -11,44 +11,52 @@
   as a card -->
 
 <ion-card>
-  <div style="max-height: 300px; overflow: hidden;">
-    <img [src]="news.urlToImage" style="width: 100%; height: auto;" />
+  <div style="max-height: 300px; overflow: hidden">
+    <img [src]="news.urlToImage" style="width: 100%; height: auto" />
   </div>
   <ion-card-header>
     <ion-card-title>{{ news.title }}</ion-card-title>
-    <ion-card-subtitle ngif="showSource_name">{{ news.source_name }}</ion-card-subtitle>
+    <ion-card-subtitle ngif="showSource_name">{{
+      news.source_name
+    }}</ion-card-subtitle>
   </ion-card-header>
   <ion-card-content>
     <h3>Description</h3>
     <p>{{ news.description }}</p>
-    <br>
-    <div style="display: flex; flex-direction: row-reverse; margin-top: -20px;">
-      <ion-note style="color: aliceblue;">{{ publishedAt }}</ion-note>
+    <br />
+    <div style="display: flex; flex-direction: row-reverse; margin-top: -20px">
+      <ion-note style="color: aliceblue">{{ publishedAt }}</ion-note>
     </div>
     <!-- stack key words horizontally -->
-    <h3>Tags {{sentimentEmoji}}</h3>
-    <ion-label ngif="showList_of_keywords" *ngFor="let keyword of keywords">#{{ keyword }} </ion-label>
+    <h3>Tags {{ sentimentEmoji }}</h3>
+    <ion-label ngif="showList_of_keywords" *ngFor="let keyword of keywords"
+      >#{{ keyword }}
+    </ion-label>
     <ion-row>
-      <ion-col size="3">
-        <ion-item [routerLink]="routerLink">
-          <ion-icon
-              style="margin-top: -7px; margin-right: 1px;"
+      <ion-col size="6">
+        <ion-button fill="clear" (click)="readMore()">
+          <ion-item color="none">
+            <ion-icon
+              style="margin-top: -7px; margin-right: 1px"
               [ios]="'share-outline'"
               [md]="'share-sharp'"
             ></ion-icon>
-          <ion-label>Read more</ion-label>
-        </ion-item>
+            <ion-label>Read more</ion-label>
+          </ion-item>
+        </ion-button>
       </ion-col>
-      <ion-col size="7"></ion-col>
-      <ion-col size="2">
-        <ion-item>
-          <ion-icon
-              style="margin-right: 3px;"
+      <ion-col size="2"></ion-col>
+      <ion-col size="4">
+        <ion-button fill="clear">
+          <ion-item color="none">
+            <ion-icon
+              style="margin-right: 3px"
               [ios]="'heart-outline'"
               [md]="'heart-sharp'"
             ></ion-icon>
-          <ion-label>Save</ion-label>
-        </ion-item>
+            <ion-label>Save</ion-label>
+          </ion-item>
+        </ion-button>
       </ion-col>
     </ion-row>
   </ion-card-content>
