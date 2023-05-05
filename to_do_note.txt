@@ -1,0 +1,15 @@
+detailed post
+    post reducer
+    post page
+saved posts
+    backend impliment
+    front end inplimnet
+        saved post page
+remove user
+    backend impliment
+    front end inpliment
+user manage
+    user profile page
+
+bugs
+apk not finding the server

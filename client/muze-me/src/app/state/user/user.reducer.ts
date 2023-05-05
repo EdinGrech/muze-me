@@ -90,6 +90,7 @@ export const userAuthReducer = createReducer(
   on(logoutUser, (state) => ({
     ...state,
     loading: true,
+    loggedIn: false,
   })),
   on(logoutUserSuccess, (state) => ({
     ...state,
@@ -99,13 +100,11 @@ export const userAuthReducer = createReducer(
       news_tollerance: 0,
     },
     loading: false,
-    loggedIn: false,
   })),
   on(logoutUserFailure, (state, { error }) => ({
     ...state,
     error,
     loading: false,
-    loggedIn: false,
   })),
   on(updateUser, (state) => ({
     ...state,

@@ -67,7 +67,8 @@ export class AuthPage implements OnInit {
       }
     });
     this.loggedIn$.subscribe((loggedIn: boolean) => {
-      if (loggedIn == true) {
+      console.log(loggedIn, this.isLoading);
+      if (loggedIn == true && this.isLoading == false) {
         this.isLoading = false;
         this.router.navigate(['/news']);
       }
@@ -75,7 +76,6 @@ export class AuthPage implements OnInit {
     this.error$.subscribe((error: any) => {
       this.isLoading = false;
       if(error){
-        //for items in error.error
         for (const [key, value] of Object.entries(error.error)) {
           this.errorDescription = this.errorDescription + value + ' ';
         }
