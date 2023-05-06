@@ -8,16 +8,18 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { newsPost } from 'src/app/interfaces/news-post';
 import { News } from 'src/app/interfaces/news';
+import { selectNewsFullData } from 'src/app/state/post/post.selectors';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-post',
   templateUrl: './post.page.html',
   styleUrls: ['./post.page.scss'],
   standalone: true,
-  imports: [IonicModule, CommonModule, FormsModule, SideBarComponent],
+  imports: [IonicModule, CommonModule, FormsModule],
 })
 export class PostPage implements OnInit {
-  post$: Observable<newsPost> = this.store.select((state) => state.post.post);
+  post$: Observable<newsPost> = this.store.select(selectNewsFullData);
 
   news: News = {
     id: 0,
@@ -48,10 +50,9 @@ export class PostPage implements OnInit {
   loading : boolean = true;
 
   constructor(
-    private store: Store<{ post: any }>
-  ) {}
-
-  ngOnInit() {
+    private store: Store<{ post: any, auth:any, news:any }>,
+    private router: Router,
+  ) {
     this.post$.subscribe((post: newsPost) => {
       this.news = post.news;
       this.showSource_name = post.showSource_name;
@@ -63,7 +64,13 @@ export class PostPage implements OnInit {
       this.showList_of_keywords = post.showList_of_keywords;
       this.keywords = post.keywords;
       this.loading = false;
-      console.log(this.news);
     });
+  }
+
+  ngOnInit() {
+  }
+
+  goBack(){
+    this.router.navigate(['/news/home'])
   }
 }

@@ -1,15 +1,11 @@
-<app-side-bar>
-  <ion-content>
+<ion-content>
     <ion-header [translucent]="true">
       <ion-toolbar>
-        <ion-buttons slot="start">
-          <ion-menu-button></ion-menu-button>
-        </ion-buttons>
         <ion-title>Post</ion-title>
       </ion-toolbar>
     </ion-header>
     <!-- make a detailed view of a news post to display the following based on 
-    news: id: number;
+    news:{ id: number;
           source_id: string | null;
           source_name: string | null;
           author: string | null;
@@ -20,6 +16,7 @@
           publishedAt: string;
           content: string | null;
           sentement: number;
+    }
     list_of_keywords: string;,
     showSource_name: boolean,
     showAuthor: boolean,
@@ -35,6 +32,33 @@
     <div style="max-height: 300px; overflow: hidden">
       <img [src]="news.urlToImage" style="width: 100%; height: auto" />
     </div>
-    <p>{{news.urlToImage}}</p>
-  </ion-content>
-</app-side-bar>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-subtitle *ngIf="showSource_name">
+          {{ news.source_name }}
+        </ion-card-subtitle>
+        <ion-card-title>{{ news.title }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p *ngIf="showAuthor">
+          {{ news.author }}
+        </p>
+        <p>{{ news.description }}</p>
+        <p *ngIf="showPublishedAt">
+          {{ publishedAt }}
+        </p>
+        <p *ngIf="showSentement">
+          {{ sentimentEmoji }}
+        </p>
+        <p *ngIf="showList_of_keywords">
+          {{ keywords }}
+        </p>
+      </ion-card-content>
+    </ion-card>
+</ion-content>
+<!-- fab back button -->
+<ion-fab vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button (click)="goBack()">
+    <ion-icon name="arrow-back"></ion-icon>
+  </ion-fab-button>
+</ion-fab>

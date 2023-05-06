@@ -2,11 +2,6 @@ import { newsPost } from '../../interfaces/news-post';
 import { createReducer, on, createFeature } from '@ngrx/store';
 import { 
   storeNewsPost,
-  storeNewsPostSuccess,
-  storeNewsPostFailure,
-  loadStoredNewsPost,
-  loadStoredNewsPostSuccess,
-  loadStoredNewsPostFailure,
  } from './post.actions';
 
 export interface NewsPostState {
@@ -44,26 +39,8 @@ export const initialState: NewsPostState = {
 
 export const newsPostReducer = createReducer(
   initialState,
-  on(storeNewsPost, (state, action) => ({
+  on(storeNewsPost, (state, { newsFullData }) => ({
     ...state,
-    newsFullData: action.newsFullData,
+    newsFullData: newsFullData,
   })),
-  on(storeNewsPostSuccess, (state) => ({
-    ...state,
-  })),
-  on(storeNewsPostFailure, (state, { error }) => ({
-    ...state,
-    error,
-  })),
-  on(loadStoredNewsPost, (state) => ({
-    ...state,
-  })),
-  on(loadStoredNewsPostSuccess, (state, { newsFullData }) => ({
-    ...state,
-    newsFullData,
-  })),
-  on(loadStoredNewsPostFailure, (state, { error }) => ({
-    ...state,
-    error,
-  }))
 );

@@ -15,6 +15,7 @@ import { IonContent } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { storeNewsPost } from '../state/post/post.actions';
 
+import { selectNewsFullData } from '../state/post/post.selectors';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
@@ -68,7 +69,11 @@ export class HomePage implements OnInit {
   }
 
   onIonInfinite(ev: Event) {
-    this.generateItems();
+    //delay as to not blast server with requests
+    setTimeout(() => {
+      this.generateItems();
+      (ev.target as HTMLIonInfiniteScrollElement).complete();
+    }, 100);
   }
 
   lastScrollSpot: number = 0;
@@ -97,8 +102,9 @@ export class HomePage implements OnInit {
   }
 
   routeTodetailedView(event: NewsCardData) {
-    console.log(event);
     this.store.dispatch(storeNewsPost({ newsFullData: event }));
-    this.router.navigate(['/news/post', event.news.id]);
+    this.store.select(selectNewsFullData).subscribe((post: any) => { 
+      this.router.navigate(['/news/post', event.news.id]);
+    });
   }
 }
