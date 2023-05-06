@@ -13,6 +13,7 @@ import { loadNews } from '../state/news/news.actions';
 import { NewsCardComponent } from './components/news-card/news-card.component';
 import { IonContent } from '@ionic/angular';
 import { Router } from '@angular/router';
+import { storeNewsPost } from '../state/post/post.actions';
 
 @Component({
   selector: 'app-home',
@@ -29,7 +30,7 @@ import { Router } from '@angular/router';
 })
 export class HomePage implements OnInit {
   constructor(
-    private store: Store<{ auth: any; news: any }>,
+    private store: Store<{ auth: any; news: any; post: any }>,
     private router: Router
   ) {
     this.newNewsList$.subscribe((news: News[]) => {
@@ -97,8 +98,7 @@ export class HomePage implements OnInit {
 
   routeTodetailedView(event: NewsCardData) {
     console.log(event);
-    //to add reducer for detailed view
-    //navigate to detailed view
+    this.store.dispatch(storeNewsPost({ newsFullData: event }));
     this.router.navigate(['/news/post', event.news.id]);
   }
 }

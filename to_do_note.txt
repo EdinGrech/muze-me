@@ -13,3 +13,5 @@ user manage
 
 bugs
 apk not finding the server
+
+fix nltk downloads in ubuntu containor

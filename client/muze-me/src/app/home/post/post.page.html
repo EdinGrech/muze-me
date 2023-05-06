@@ -1,10 +1,40 @@
 <app-side-bar>
-  <ion-header [translucent]="true">
-    <ion-toolbar>
-      <ion-buttons slot="start">
-        <ion-menu-button></ion-menu-button>
-      </ion-buttons>
-      <ion-title>Post</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-content>
+    <ion-header [translucent]="true">
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Post</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <!-- make a detailed view of a news post to display the following based on 
+    news: id: number;
+          source_id: string | null;
+          source_name: string | null;
+          author: string | null;
+          title: string;
+          description: string;
+          url: string;
+          urlToImage: string | null;
+          publishedAt: string;
+          content: string | null;
+          sentement: number;
+    list_of_keywords: string;,
+    showSource_name: boolean,
+    showAuthor: boolean,
+
+    showPublishedAt: boolean,
+    publishedAt: string,
+
+    showSentement: boolean,
+    sentimentEmoji: string,
+
+    showList_of_keywords: boolean,
+    keywords: string[], -->
+    <div style="max-height: 300px; overflow: hidden">
+      <img [src]="news.urlToImage" style="width: 100%; height: auto" />
+    </div>
+    <p>{{news.urlToImage}}</p>
+  </ion-content>
 </app-side-bar>

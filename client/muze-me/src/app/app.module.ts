@@ -21,6 +21,8 @@ import { UserEffects } from './state/user/user.effects';
 import { newsReducer } from './state/news/news.reducer';
 import { NewsEffects } from './state/news/news.effects';
 
+import { newsPostReducer } from './state/post/post.reducer';
+
 @NgModule({
   declarations: [AppComponent],
   imports: [
@@ -28,7 +30,7 @@ import { NewsEffects } from './state/news/news.effects';
     BrowserModule,
     IonicModule.forRoot(),
     AppRoutingModule,
-    StoreModule.forRoot({ auth: userAuthReducer, news: newsReducer }),
+    StoreModule.forRoot({ auth: userAuthReducer, news: newsReducer, post: newsPostReducer }),
     EffectsModule.forRoot([UserEffects, NewsEffects]),
     StoreDevtoolsModule.instrument({ maxAge: 25 }),
     StoreRouterConnectingModule.forRoot({ routerState: RouterState.Minimal }),

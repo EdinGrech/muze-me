@@ -40,7 +40,7 @@ export class AuthPage implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    public store: Store<{ auth: any; news: any }>,
+    public store: Store<{ auth: any; news: any; post:any }>,
     private router: Router
   ) {
     this.formData = this.fb.group({
