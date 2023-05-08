@@ -11,12 +11,34 @@
         <ion-title>home</ion-title>
       </ion-toolbar>
     </ion-header>
-
-    <div *ngFor="let news of newsList$">
-      <app-news-card
-        [news]="news"
-        (newsData)="routeTodetailedView($event)"
-      ></app-news-card>
+    <ion-card *ngIf="persieved_loading" style="padding:14px">
+      <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark"
+        [theme]="{ height: '30px' }"></ngx-skeleton-loader>
+      <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark"
+        [theme]="{ height: '10px', width:'35px' }"></ngx-skeleton-loader>
+      <ngx-skeleton-loader count="4" appearance="line" animation="progress-dark"
+        [theme]="{ height: '15px' }"></ngx-skeleton-loader>
+    </ion-card>
+    <ion-card *ngIf="persieved_loading" style="padding:14px">
+      <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark"
+        [theme]="{ height: '30px' }"></ngx-skeleton-loader>
+      <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark"
+        [theme]="{ height: '10px', width:'35px' }"></ngx-skeleton-loader>
+      <ngx-skeleton-loader count="4" appearance="line" animation="progress-dark"
+        [theme]="{ height: '15px' }"></ngx-skeleton-loader>
+    </ion-card>
+    <ion-card *ngIf="persieved_loading" style="padding:14px">
+      <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark"
+        [theme]="{ height: '30px' }"></ngx-skeleton-loader>
+      <ngx-skeleton-loader count="1" appearance="line" animation="progress-dark"
+        [theme]="{ height: '10px', width:'35px' }"></ngx-skeleton-loader>
+      <ngx-skeleton-loader count="4" appearance="line" animation="progress-dark"
+        [theme]="{ height: '15px' }"></ngx-skeleton-loader>
+    </ion-card>
+    <div *ngIf="!firstLoadLoadingStatus_changeOnRegenOnly">
+      <div *ngFor="let news of newsList$">
+        <app-news-card [news]="news" (newsData)="routeTodetailedView($event)"></app-news-card>
+      </div>
     </div>
     <ion-infinite-scroll (ionInfinite)="onIonInfinite($event)">
       <ion-infinite-scroll-content></ion-infinite-scroll-content>

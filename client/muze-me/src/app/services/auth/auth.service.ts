@@ -71,6 +71,7 @@ export class AuthService {
         'Content-Type': 'application/json',
       }),
     };
+    this.cookieService.delete('jwt');
     return this.http.post<any>(
       environment.motherShipUrl +
         ':' +

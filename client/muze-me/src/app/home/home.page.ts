@@ -16,12 +16,16 @@ import { Router } from '@angular/router';
 import { storeNewsPost } from '../state/post/post.actions';
 
 import { selectNewsFullData } from '../state/post/post.selectors';
+
+import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import { User } from '../interfaces/user';
 @Component({
   selector: 'app-home',
   templateUrl: './home.page.html',
   styleUrls: ['./home.page.scss'],
   standalone: true,
   imports: [
+    NgxSkeletonLoaderModule,
     IonicModule,
     CommonModule,
     FormsModule,
@@ -39,14 +43,29 @@ export class HomePage implements OnInit {
       this.newsList$ = this.newsList$.concat(news);
       console.log(this.newsList$);
     });
+    this.loading$.subscribe((loading: boolean) => {
+      if(loading){
+        this.persieved_loading = true; 
+      } else {
+      setTimeout(() => {
+        if(this.firstLoadLoadingStatus_changeOnRegenOnly){
+          this.firstLoadLoadingStatus_changeOnRegenOnly = false;
+        }
+        this.persieved_loading = loading;
+      }, 1500);
+    }
+    });
   }
+  millisecontTime = Date.now();
+  persieved_loading = false;
+  firstLoadLoadingStatus_changeOnRegenOnly = true;
   newsList$: News[] = [];
   newNewsList$: Observable<News[]> = this.store.select(
     (state) => state.news.news
   );
   error$: any = this.store.select((state) => state.news.error);
-  loading$: any = this.store.select((state) => state.news.loading);
-  user$: any = this.store.select((state) => state.auth.user);
+  loading$: Observable<boolean> = this.store.select((state) => state.news.loading);
+  user$: Observable<User> = this.store.select((state) => state.auth.user);
 
   ngOnInit() {
     this.user$.subscribe((user: any) => {
@@ -96,6 +115,7 @@ export class HomePage implements OnInit {
   handleRefresh(event: any) {
     this.newsList$ = [];
     this.generateItems();
+    this.firstLoadLoadingStatus_changeOnRegenOnly = true;
     setTimeout(() => {
       event.target.complete();
     }, 500);
