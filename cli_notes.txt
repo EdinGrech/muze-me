@@ -19,3 +19,6 @@ python -m pip install Pillow
 
 docker system prune -a -f --volumes
 *** still need to add .env for server manually ***
+
+ionic capacitor add android
+ionic capacitor build android --prod

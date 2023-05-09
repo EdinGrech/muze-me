@@ -3,6 +3,9 @@ from .serializers import NewsSerializer
 import nltk
 from .models import News
 nltk.download('vader_lexicon')
+nltk.download('punkt')
+nltk.download('stopwords')
+nltk.download('wordnet')
 from .news_keyword_extractor import extract_keywords
 from django.utils import timezone
 

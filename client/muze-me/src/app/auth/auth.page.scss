@@ -118,7 +118,7 @@ ion-label {
 @media only screen and (min-width: 675px) {
   .container {
     margin: auto !important;
-    width: 50%;
+    max-width: 450px;
   }
 
   .heading {
