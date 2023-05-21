@@ -5,9 +5,9 @@ Welcome to Muze-Me, a full stack application built on Angular 15, Ionic, and Dja
 ## Demo Images
 
 <p float="left">
-  <img src="https://github.com/EdinGrech/muze-me/blob/master/demo-img/login.png" width="33%" />
+  <img src="https://github.com/EdinGrech/muze-me/blob/master/demo-img/login.png" width="32%" />
   <img src="https://github.com/EdinGrech/muze-me/blob/master/demo-img/home.png" width="33%" />
-  <img src="https://github.com/EdinGrech/muze-me/blob/master/demo-img/nav.png" width="33%" />
+  <img src="https://github.com/EdinGrech/muze-me/blob/master/demo-img/nav.png" width="32%" />
 </p>
 
 ## Prerequisites
