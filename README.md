@@ -4,9 +4,11 @@ Welcome to Muze-Me, a full stack application built on Angular 15, Ionic, and Dja
 
 ## Demo Images
 
-| Login Page                                                                                 | Home Page                                                                                                                                                                      | Navigation Page |
-| ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- |
-| ![Muze-Me Login Page](https://github.com/EdinGrech/muze-me/blob/master/demo-img/login.png) | ![Muze-Me Home Page](https://github.com/EdinGrech/muze-me/blob/master/demo-img/home.png)![Muze-Me Nav Page](https://github.com/EdinGrech/muze-me/blob/master/demo-img/nav.png) |
+<p float="left">
+  <img src="https://github.com/EdinGrech/muze-me/blob/master/demo-img/login.png" width="33%" />
+  <img src="https://github.com/EdinGrech/muze-me/blob/master/demo-img/home.png" width="33%" />
+  <img src="https://github.com/EdinGrech/muze-me/blob/master/demo-img/nav.png" width="33%" />
+</p>
 
 ## Prerequisites
 
